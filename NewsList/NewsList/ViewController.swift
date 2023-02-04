@@ -8,7 +8,6 @@
 import UIKit
 
 class ViewController: UIViewController {
-    
     private var tableView = UITableView()
     let cellId = "cellId"
     private var cellItems: [Article?] = []
@@ -68,15 +67,29 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         cell.imageView?.image = UIImage(named: "news")
         cell.imageView?.load(str: imgUrl, placeholder: UIImage(named: "news"), cache: URLCache(memoryCapacity: indexPath.row, diskCapacity: indexPath.row, directory: URL(string: imgUrl) ?? URL(string: "https://cdn.searchenginejournal.com/wp-content/uploads/2022/06/image-search-1600-x-840-px-62c6dc4ff1eee-sej.png")), tableView: tableView)
 //        cell.imageView?.load(urlString: imgUrl, PlaceHolderImage: UIImage(named: "news")!)
-        cell.imageView?.contentScaleFactor = 50
+//        cell.imageView?.contentScaleFactor = 50
+//        cell.translatesAutoresizingMaskIntoConstraints = false
+
         cell.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        cell.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
         return cell
     }
-    
+    func imageWithImage(image: UIImage, scaledToSize newSize: CGSize) -> UIImage {
+        
+        UIGraphicsBeginImageContext(newSize)
+        image.draw(in: CGRect(x: 0 ,y: 0 ,width: newSize.width ,height: newSize.height))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage!.withRenderingMode(.alwaysOriginal)
+    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selected = cellItems[indexPath.row]
-        let text = cellItems[indexPath.row]?.title ?? "Title"
-        print(text)
+        let text = cellItems[indexPath.row]?.title ?? "Title is empty."
+        let image = tableView.cellForRow(at: indexPath)?.imageView?.image
+        let description = cellItems[indexPath.row]?.description ?? " Description is empty."
+        let date = cellItems[indexPath.row]?.publishedAt ?? "Date is empty."
+        let author = cellItems[indexPath.row]?.source?.name ?? "Source is empty."
+        let link = cellItems[indexPath.row]?.url ?? "Url is empty."
+        present(CellController(label: text, image: image!, description: description, date: date, author: author, link: link), animated: true)
         
         
     }
