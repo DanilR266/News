@@ -10,6 +10,6 @@ import UIKit
 
 struct CellItems {
     var label: UILabel
-    var image: UIImage
+    var image: UIImageView
     var count: UILabel
 }
