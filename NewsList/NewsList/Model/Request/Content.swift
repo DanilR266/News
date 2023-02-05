@@ -22,7 +22,7 @@ class GetContent {
             guard let data = data, err == nil else { return }
             do {
                 let jsonData = try JSONDecoder().decode(Response.self, from: data)
-                print("Result", type(of: jsonData.articles?[0...19]))
+                
                 if jsonData.articles!.count > 20 {
                     let array = Array<Article>(jsonData.articles![0...19])
                     completion(array ?? [])

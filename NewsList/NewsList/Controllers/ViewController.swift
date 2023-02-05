@@ -19,7 +19,6 @@ class ViewController: UIViewController {
     private let dictViews = Views()
     
     override func viewDidLoad() {
-        print(NetworkMonitor.shared.isConnect, "Shar")
         super.viewDidLoad()
         if NetworkMonitor.shared.isConnect {
             setUpTableView()
