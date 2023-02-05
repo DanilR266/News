@@ -67,6 +67,7 @@
 			isa = PBXGroup;
 			children = (
 				7EEE8197298D4BB700A422BA /* Model */,
+				7EEE819D298D51D800A422BA /* Extensions */,
 				7EEE817F298D41FC00A422BA /* AppDelegate.swift */,
 				7EEE8181298D41FC00A422BA /* SceneDelegate.swift */,
 				7EEE8183298D41FC00A422BA /* ViewController.swift */,
@@ -84,7 +85,6 @@
 			isa = PBXGroup;
 			children = (
 				7EEE819E298D51F000A422BA /* Request */,
-				7EEE819D298D51D800A422BA /* Extensions */,
 			);
 			name = Model;
 			sourceTree = "<group>";
