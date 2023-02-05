@@ -10,8 +10,10 @@ import WebKit
 
 
 class WebViewController: UIViewController, WKNavigationDelegate {
+    
     var webView: WKWebView!
     let str: String
+    
     init(string: String) {
         self.str = string
         super.init(nibName: nil, bundle: nil)
@@ -20,13 +22,16 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         webView = WKWebView()
         webView.navigationDelegate = self
         view = webView
         let url = URL(string: str)!
-        webView.load(URLRequest(url: url))
+        var urlRequest = URLRequest(url: url)
+        urlRequest.cachePolicy = .returnCacheDataElseLoad
+        webView.load(urlRequest)
         webView.allowsBackForwardNavigationGestures = true
     }
     

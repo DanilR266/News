@@ -8,10 +8,14 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
     private var tableView = UITableView()
     let cellId = "cellId"
     private var cellItems: [Article?] = []
+    var dict: Dictionary<String, Int> = [:]
     let refreshControl = UIRefreshControl()
+    let dictViews = Views()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTableView()
@@ -23,6 +27,11 @@ class ViewController: UIViewController {
             DispatchQueue.main.async {
                 guard let self=self else { return }
                 self.cellItems = values ?? []
+                var strs: Array<String> = []
+                for i in values {
+                    strs.append(i!.title!)
+                }
+                self.dict = Views().setNumberOfViews(self.dictViews.getDict() ?? [:], strs: strs)
                 self.tableView.reloadData()
             }
         }
@@ -36,10 +45,14 @@ class ViewController: UIViewController {
             DispatchQueue.main.async {
                 guard let self=self else { return }
                 self.cellItems = values ?? []
-                self.tableView.reloadData()
                 self.refreshControl.endRefreshing()
+                var strs: Array<String> = []
+                for i in values {
+                    strs.append(i!.title!)
+                }
+                self.dict = Views().setNumberOfViews(self.dictViews.getDict() ?? [:], strs: strs)
+                self.tableView.reloadData()
             }
-            
         }
     }
     
@@ -53,47 +66,39 @@ class ViewController: UIViewController {
     }
 }
 
+
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         cellItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellid")!
         let textValue = cellItems[indexPath.row]?.title ?? "Title"
         let imgUrl = cellItems[indexPath.row]?.urlToImage ?? ""
-        cell.textLabel?.text = "\(textValue)"
+        cell.textLabel?.text = "Views: \(dictViews.getDict()!["\(textValue)"]!). \(textValue)"
         cell.textLabel?.numberOfLines = 3
         cell.imageView?.image = UIImage(named: "news")
-        cell.imageView?.load(str: imgUrl, placeholder: UIImage(named: "news"), cache: URLCache(memoryCapacity: indexPath.row, diskCapacity: indexPath.row, directory: URL(string: imgUrl) ?? URL(string: "https://cdn.searchenginejournal.com/wp-content/uploads/2022/06/image-search-1600-x-840-px-62c6dc4ff1eee-sej.png")), tableView: tableView)
-//        cell.imageView?.load(urlString: imgUrl, PlaceHolderImage: UIImage(named: "news")!)
-//        cell.imageView?.contentScaleFactor = 50
-//        cell.translatesAutoresizingMaskIntoConstraints = false
-
+        cell.imageView?.load(str: imgUrl, placeholder: UIImage(named: "news")!, cache: nil, tableView: tableView)
         cell.heightAnchor.constraint(equalToConstant: 100).isActive = true
         cell.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
         return cell
     }
-    func imageWithImage(image: UIImage, scaledToSize newSize: CGSize) -> UIImage {
-        
-        UIGraphicsBeginImageContext(newSize)
-        image.draw(in: CGRect(x: 0 ,y: 0 ,width: newSize.width ,height: newSize.height))
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return newImage!.withRenderingMode(.alwaysOriginal)
-    }
+    
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let text = cellItems[indexPath.row]?.title ?? "Title is empty."
+        let text = "\(cellItems[indexPath.row]?.title ?? "Title is empty.")"
+        dictViews.increaseDict(str: text)
         let image = tableView.cellForRow(at: indexPath)?.imageView?.image
         let description = cellItems[indexPath.row]?.description ?? " Description is empty."
         let date = cellItems[indexPath.row]?.publishedAt ?? "Date is empty."
         let author = cellItems[indexPath.row]?.source?.name ?? "Source is empty."
         let link = cellItems[indexPath.row]?.url ?? "Url is empty."
         present(CellController(label: text, image: image!, description: description, date: date, author: author, link: link), animated: true)
-        
-        
+        tableView.reloadData()
     }
-    
     
 }
 

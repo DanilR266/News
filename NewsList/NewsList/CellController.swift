@@ -40,6 +40,7 @@ class CellController: UIViewController {
         lbl.textAlignment = .center
         return lbl
     }()
+    
     lazy var subLabel: UILabel = {
         let sub = UILabel()
         sub.text = descriptionCell
@@ -49,6 +50,7 @@ class CellController: UIViewController {
         sub.textAlignment = .center
         return sub
     }()
+    
     lazy var dateAT: UILabel = {
         let date = UILabel()
         date.text = "Publication date: \(datePublish)"
@@ -56,6 +58,7 @@ class CellController: UIViewController {
         date.textAlignment = .left
         return date
     }()
+    
     lazy var source: UILabel = {
         let source = UILabel()
         source.text = "Source: \(author)"
@@ -88,9 +91,11 @@ class CellController: UIViewController {
         view.backgroundColor = .white
         setUpLbl()
     }
+    
     @objc func pressed(_ sender: UIButton) {
         present(WebViewController(string: link), animated: true)
     }
+    
     private func setUpLbl() {
         view.addSubview(labelS)
         view.addSubview(image)
@@ -107,9 +112,6 @@ class CellController: UIViewController {
         image.translatesAutoresizingMaskIntoConstraints = false
         image.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         image.topAnchor.constraint(equalTo: labelS.bottomAnchor, constant: 50).isActive = true
-        print(imageCell.size.width, view.frame.width)
-//        image.widthAnchor.constraint(equalToConstant: image.frame.width/2).isActive = true
-        
         if imageCell.size.width > view.frame.width {
             image.heightAnchor.constraint(equalToConstant: imageCell.size.height / (imageCell.size.width/view.frame.width)).isActive = true
             image.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
@@ -122,8 +124,7 @@ class CellController: UIViewController {
             image.heightAnchor.constraint(equalToConstant: imageCell.size.height).isActive = true
             image.widthAnchor.constraint(equalToConstant: imageCell.size.width).isActive = true
         }
-        
-        image.heightAnchor.constraint(equalToConstant: 250).isActive = true
+//        image.heightAnchor.constraint(equalToConstant: 250).isActive = true
         
         subLabel.translatesAutoresizingMaskIntoConstraints = false
         subLabel.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 40).isActive = true
@@ -142,7 +143,5 @@ class CellController: UIViewController {
         button.topAnchor.constraint(equalTo: source.bottomAnchor, constant: 10).isActive = true
         button.widthAnchor.constraint(equalToConstant: view.frame.width - 10).isActive = true
         button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10).isActive = true
-        
-        
     }
 }
