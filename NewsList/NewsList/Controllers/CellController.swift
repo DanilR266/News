@@ -72,10 +72,17 @@ class CellController: UIViewController {
     
     lazy var button: UIButton = {
         let btn = UIButton()
-        btn.setTitle("\(link)", for: .normal)
-        btn.setTitleColor(UIColor.blue, for: .normal)
+        btn.backgroundColor = .blue
+        
+        btn.setTitle("Full news", for: .normal)
         btn.titleLabel?.numberOfLines = 0
-        btn.titleLabel?.font = .systemFont(ofSize: 16, weight: .regular)
+        btn.titleLabel?.font = .systemFont(ofSize: 24, weight: .bold)
+        btn.layer.shadowRadius = 20
+        btn.layer.borderWidth = 2
+        btn.layer.cornerRadius = 20
+        btn.layer.shadowColor = UIColor.black.cgColor
+        btn.layer.masksToBounds = false
+        btn.clipsToBounds = true
         btn.addTarget(self, action: #selector(pressed(_:)), for: .touchUpInside)
         return btn
     }()
@@ -129,7 +136,7 @@ class CellController: UIViewController {
         
         stackView.addArrangedSubview(image)
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.centerXAnchor.constraint(equalTo: stackView.centerXAnchor).isActive = true
+        image.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         image.topAnchor.constraint(equalTo: labelS.bottomAnchor, constant: 50).isActive = true
         if imageCell.size.width > view.frame.width {
             image.heightAnchor.constraint(equalToConstant: imageCell.size.height / (imageCell.size.width/view.frame.width)).isActive = true
@@ -148,7 +155,7 @@ class CellController: UIViewController {
         stackView.addArrangedSubview(subLabel)
         subLabel.translatesAutoresizingMaskIntoConstraints = false
         subLabel.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 40).isActive = true
-        subLabel.centerXAnchor.constraint(equalTo: stackView.centerXAnchor).isActive = true
+        subLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         subLabel.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
         stackView.setCustomSpacing(50, after: subLabel)
         
@@ -167,59 +174,12 @@ class CellController: UIViewController {
         stackView.addArrangedSubview(button)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.topAnchor.constraint(equalTo: source.bottomAnchor, constant: 10).isActive = true
-        button.widthAnchor.constraint(equalToConstant: view.frame.width - 10).isActive = true
-        button.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 10).isActive = true
+        button.widthAnchor.constraint(equalToConstant: stackView.frame.width - 30).isActive = true
+        button.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+//        button.leadingAnchor.constraint(equalTo: stackView.leadingAnchor, constant: 10).isActive = true
         button.heightAnchor.constraint(equalToConstant: 50).isActive = true
         button.bottomAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 40).isActive = true
         stackView.setCustomSpacing(50, after: button)
         
-    }
-    
-    private func setUpViews() {
-        contentView.addSubview(labelS)
-        contentView.addSubview(image)
-        contentView.addSubview(subLabel)
-        contentView.addSubview(dateAT)
-        contentView.addSubview(source)
-        contentView.addSubview(button)
-        labelS.translatesAutoresizingMaskIntoConstraints = false
-        labelS.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        labelS.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 40).isActive = true
-        labelS.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
-        
-        image.translatesAutoresizingMaskIntoConstraints = false
-        image.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        image.topAnchor.constraint(equalTo: labelS.bottomAnchor, constant: 50).isActive = true
-        if imageCell.size.width > view.frame.width {
-            image.heightAnchor.constraint(equalToConstant: imageCell.size.height / (imageCell.size.width/view.frame.width)).isActive = true
-            image.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
-        }
-        else if imageCell.size.height > 250 {
-            image.heightAnchor.constraint(equalToConstant: 250).isActive = true
-            image.widthAnchor.constraint(equalToConstant: imageCell.size.width / (250/view.frame.height)).isActive = true
-        }
-        else {
-            image.heightAnchor.constraint(equalToConstant: imageCell.size.height).isActive = true
-            image.widthAnchor.constraint(equalToConstant: imageCell.size.width).isActive = true
-        }
-//        image.heightAnchor.constraint(equalToConstant: 250).isActive = true
-        
-        subLabel.translatesAutoresizingMaskIntoConstraints = false
-        subLabel.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 40).isActive = true
-        subLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        subLabel.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
-        
-        dateAT.translatesAutoresizingMaskIntoConstraints = false
-        dateAT.topAnchor.constraint(equalTo: subLabel.bottomAnchor, constant: 10).isActive = true
-        dateAT.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
-        
-        source.translatesAutoresizingMaskIntoConstraints = false
-        source.topAnchor.constraint(equalTo: dateAT.bottomAnchor, constant: 10).isActive = true
-        source.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
-        
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.topAnchor.constraint(equalTo: source.bottomAnchor, constant: 10).isActive = true
-        button.widthAnchor.constraint(equalToConstant: view.frame.width - 10).isActive = true
-        button.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10).isActive = true
     }
 }
